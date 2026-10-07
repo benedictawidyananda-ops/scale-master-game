@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maestro Scale Master: Game Tangga Nada Mayor 1# - 7#</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        music: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            gold: '#fbbf24',
+                            accent: '#8b5cf6',
+                            dark: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #fef08a 50%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-glass {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+        .piano-key-white {
+            background: linear-gradient(to bottom, #ffffff 0%, #e2e8f0 100%);
+        }
+        .piano-key-white:active {
+            background: #cbd5e1;
+        }
+        .piano-key-black {
+            background: linear-gradient(to bottom, #334155 0%, #0f172a 100%);
+        }
+        .piano-key-black:active {
+            background: #1e293b;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+    <!-- Header Navigation -->
+    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-amber-500/30 px-4 lg:px-8 py-3 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500 flex items-center justify-center text-amber-400 font-serif font-bold text-xl">
+                <i class="fa-solid fa-music"></i>
+            </div>
+            <div>
+                <h1 class="font-serif text-lg lg:text-xl font-bold tracking-wide text-amber-400">Scale Master 1#–7#</h1>
+                <p class="text-xs text-slate-400">Game Teori Musik: Rumus Tangga Nada Mayor Kres</p>
+            </div>
+        </div>
+
+        <div class="hidden md:flex space-x-2 text-sm">
+            <button onclick="switchTab('teori')" id="tab-teori" class="nav-btn px-3.5 py-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 transition flex items-center gap-2">
+                <i class="fa-solid fa-book-open"></i> Ruang Rumus & Lab
+            </button>
+            <button onclick="switchTab('game1')" id="tab-game1" class="nav-btn px-3.5 py-2 rounded-lg hover:bg-slate-800 text-slate-300 transition flex items-center gap-2">
+                <i class="fa-solid fa-bolt"></i> Game 1: Tebak Cepat
+            </button>
+            <button onclick="switchTab('game2')" id="tab-game2" class="nav-btn px-3.5 py-2 rounded-lg hover:bg-slate-800 text-slate-300 transition flex items-center gap-2">
+                <i class="fa-solid fa-hammer"></i> Game 2: Rakit Tangga Nada
+            </button>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <button onclick="testAudio()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-volume-high text-amber-400"></i> Tes Audio
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Nav -->
+    <div class="md:hidden flex justify-around bg-slate-900 border-b border-slate-800 py-2 px-2 text-xs">
+        <button onclick="switchTab('teori')" id="mob-tab-teori" class="px-2 py-1.5 rounded text-amber-400 font-medium">1. Rumus & Lab</button>
+        <button onclick="switchTab('game1')" id="mob-tab-game1" class="px-2 py-1.5 rounded text-slate-400">2. Tebak Cepat</button>
+        <button onclick="switchTab('game2')" id="mob-tab-game2" class="px-2 py-1.5 rounded text-slate-400">3. Rakit Scale</button>
+    </div>
+
+    <!-- Instructor Banner -->
+    <header class="bg-gradient-to-r from-slate-900 via-amber-950/40 to-slate-900 border-b border-amber-900/30 py-5 px-4 lg:px-8">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-5">
+            <div class="w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-300 text-2xl shadow-lg shadow-amber-900/30 shrink-0">
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
+            
+            <div class="text-center md:text-left flex-1">
+                <div class="inline-block px-2.5 py-0.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-300 text-[11px] font-semibold uppercase tracking-wider mb-1">
+                    Modul Teori Musik Dasar & Lanjutan
+                </div>
+                <h2 id="banner-title" class="text-lg md:text-xl font-serif font-bold text-amber-100">
+                    "Selamat datang di Laboratorium Tangga Nada Mayor Kres (1# sampai 7#)!"
+                </h2>
+                <p id="banner-desc" class="text-slate-300 text-xs md:text-sm mt-1 leading-relaxed">
+                    Kuasai rumus interval tangga nada mayor <strong>1 - 1 - ½ - 1 - 1 - 1 - ½</strong>, urutan nada kres <strong>F - C - G - D - A - E - B</strong>, serta trik cepat menentukan Key Signature!
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 lg:p-8">
+
+        <!-- TAB 1: TEORI & LAB INTERAKTIF -->
+        <section id="sec-teori" class="space-y-6">
+            
+            <!-- Formulas Card -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <div class="card-glass p-6 rounded-2xl lg:col-span-2 space-y-4">
+                    <h3 class="text-lg font-serif font-bold text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i> Rumus Utama & Rahasia Kres (Sharps)
+                    </h3>
+                    
+                    <!-- Interval Formula Display -->
+                    <div class="p-4 bg-slate-950/80 rounded-xl border border-slate-800">
+                        <span class="text-xs font-bold text-amber-300 uppercase tracking-wider block mb-2">1. Rumus Interval Tangga Nada Mayor:</span>
+                        <div class="flex flex-wrap items-center gap-2 text-xs md:text-sm font-bold font-mono">
+                            <span class="px-3 py-1.5 bg-amber-500/20 text-amber-300 rounded-lg border border-amber-500/40">1</span>
+                            <span class="text-slate-500"><i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                            <span class="px-3 py-1.5 bg-amber-500/20 text-amber-300 rounded-lg border border-amber-500/40">1</span>
+                            <span class="text-slate-500"><i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                            <span class="px-3 py-1.5 bg-emerald-500/20 text-emerald-300 rounded-lg border border-emerald-500/40">½</span>
+                            <span class="text-slate-500"><i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                            <span class="px-3 py-1.5 bg-amber-500/20 text-amber-300 rounded-lg border border-amber-500/40">1</span>
+                            <span class="text-slate-500"><i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                            <span class="px-3 py-1.5 bg-amber-500/20 text-amber-300 rounded-lg border border-amber-500/40">1</span>
+                            <span class="text-slate-500"><i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                            <span class="px-3 py-1.5 bg-amber-500/20 text-amber-300 rounded-lg border border-amber-500/40">1</span>
+                            <span class="text-slate-500"><i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                            <span class="px-3 py-1.5 bg-emerald-500/20 text-emerald-300 rounded-lg border border-emerald-500/40">½</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">
+                            <strong>1</strong> = Jarak Whole Step (2 Semitone / 2 Tuts Piano). <strong>½</strong> = Jarak Half Step (1 Semitone / 1 Tuts Langsung).
+                        </p>
+                    </div>
+
+                    <!-- Order of Sharps -->
+                    <div class="p-4 bg-slate-950/80 rounded-xl border border-slate-800">
+                        <span class="text-xs font-bold text-purple-300 uppercase tracking-wider block mb-2">2. Urutan Penambahan Nada Kres (#):</span>
+                        <div class="grid grid-cols-7 gap-2 text-center font-mono font-bold text-sm">
+                            <div class="p-2 bg-purple-950/50 border border-purple-800 rounded-lg text-purple-200">F#</div>
+                            <div class="p-2 bg-purple-950/50 border border-purple-800 rounded-lg text-purple-200">C#</div>
+                            <div class="p-2 bg-purple-950/50 border border-purple-800 rounded-lg text-purple-200">G#</div>
+                            <div class="p-2 bg-purple-950/50 border border-purple-800 rounded-lg text-purple-200">D#</div>
+                            <div class="p-2 bg-purple-950/50 border border-purple-800 rounded-lg text-purple-200">A#</div>
+                            <div class="p-2 bg-purple-950/50 border border-purple-800 rounded-lg text-purple-200">E#</div>
+                            <div class="p-2 bg-purple-950/50 border border-purple-800 rounded-lg text-purple-200">B#</div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">
+                            💡 <strong>Jembatan Keledai / Cara Mengingat:</strong> <span class="text-amber-300 italic">"Father Charles Goes Down And Ends Battle"</span> atau <span class="text-amber-300 italic">"Fan Cenderung Gila Dan Amat Sangat Penasaran"</span>.
+                        </p>
+                    </div>
+
+                    <!-- Trik Cepat Key Signature -->
+                    <div class="p-4 bg-amber-950/20 border border-amber-800/40 rounded-xl text-xs space-y-1 text-amber-200">
+                        <strong class="block text-amber-400 text-sm font-serif">⚡ Trik Kilat Menentukan Tangga Nada Kres:</strong>
+                        <p>• <strong>Kres Terakhir</strong> selalu merupakan nada ke-7 (Leading Tone) yang berjarak ½ nada di bawah Tonika (Nada Dasar).</p>
+                        <p>• <i>Contoh:</i> Jika kres terakhir adalah <strong>G#</strong>, maka tangga nadanya adalah <strong>A Mayor</strong> (3#).</p>
+                        <p>• Untuk mencari nada dasar tangga nada berikutnya, melompatlah <strong>5 nada (Kuint)</strong> ke atas dari C Mayor!</p>
+                    </div>
+
+                </div>
+
+                <!-- Summary Table 1# to 7# -->
+                <div class="card-glass p-5 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-serif font-bold text-amber-400 text-sm mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-list-ol"></i> Daftar Tangga Nada 1# - 7#
+                        </h4>
+                        <div class="space-y-1.5 text-xs">
+                            <div class="flex justify-between items-center p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span><strong class="text-amber-400">1#</strong> : G Mayor</span>
+                                <span class="font-mono text-[11px] text-slate-400">F#</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span><strong class="text-amber-400">2#</strong> : D Mayor</span>
+                                <span class="font-mono text-[11px] text-slate-400">F#, C#</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span><strong class="text-amber-400">3#</strong> : A Mayor</span>
+                                <span class="font-mono text-[11px] text-slate-400">F#, C#, G#</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span><strong class="text-amber-400">4#</strong> : E Mayor</span>
+                                <span class="font-mono text-[11px] text-slate-400">+ D#</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span><strong class="text-amber-400">5#</strong> : B Mayor</span>
+                                <span class="font-mono text-[11px] text-slate-400">+ A#</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span><strong class="text-amber-400">6#</strong> : F# Mayor</span>
+                                <span class="font-mono text-[11px] text-slate-400">+ E# (F)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span><strong class="text-amber-400">7#</strong> : C# Mayor</span>
+                                <span class="font-mono text-[11px] text-slate-400">+ B# (C)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="switchTab('game1')" class="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold rounded-xl text-xs shadow-lg transition">
+                        Mulai Tantangan Tebak Cepat <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Interactive Scale Audio Sandbox -->
+            <div class="card-glass p-6 rounded-2xl">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                    <div>
+                        <h3 class="text-lg font-serif font-bold text-amber-400 flex items-center gap-2">
+                            <i class="fa-solid fa-sliders"></i> Interactive Scale Audio Player
+                        </h3>
+                        <p class="text-xs text-slate-400">Pilih tangga nada untuk mendengarkan alur nada dan melihat letak kresnya!</p>
+                    </div>
+
+                    <!-- Scale Selector Buttons -->
+                    <div id="sandbox-buttons" class="flex flex-wrap gap-1.5">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Active Scale Info Box -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+                    <div class="flex flex-col md:flex-row justify-between md:items-center gap-3">
+                        <div>
+                            <span id="sb-sharp-count" class="px-2.5 py-0.5 bg-amber-500/20 text-amber-300 text-xs font-bold rounded-md border border-amber-500/30">1# Major</span>
+                            <h4 id="sb-scale-name" class="text-2xl font-serif font-bold text-amber-300 mt-1">G Mayor (G Major)</h4>
+                        </div>
+                        <button onclick="playCurrentSandboxScale()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> Bunyikan Tangga Nada Ini
+                        </button>
+                    </div>
+
+                    <!-- Note Display Grid -->
+                    <div id="sb-notes-grid" class="grid grid-cols-8 gap-2 text-center font-mono">
+                        <!-- Injected by JS -->
+                    </div>
+
+                    <!-- Scale Explanation -->
+                    <div id="sb-desc" class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs text-slate-300 leading-relaxed">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- TAB 2: GAME 1 - TEBAK CEPAT KEY SIGNATURE -->
+        <section id="sec-game1" class="hidden space-y-6">
+            <div class="card-glass p-6 rounded-2xl">
+                <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6 border-b border-slate-800 pb-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-0.5 bg-amber-500/20 text-amber-300 text-xs font-bold rounded-md">GAME MODUL 1</span>
+                            <h3 class="text-xl font-serif font-bold text-amber-400">Game 1: Detektif & Tebak Cepat</h3>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-1">Uji kecepatan pemahaman Anda tentang jumlah kres, nama tangga nada, dan nada kresnya!</p>
+                    </div>
+
+                    <!-- Scoreboard -->
+                    <div class="flex items-center gap-4 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-800">
+                        <div class="text-center">
+                            <span class="text-[10px] text-slate-400 block uppercase">Skor</span>
+                            <span id="g1-score" class="text-xl font-bold text-amber-400">0</span>
+                        </div>
+                        <div class="h-8 w-[1px] bg-slate-800"></div>
+                        <div class="text-center">
+                            <span class="text-[10px] text-slate-400 block uppercase">Soal</span>
+                            <span id="g1-progress" class="text-xl font-bold text-slate-200">1 / 10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Box -->
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800 text-center space-y-3">
+                        <span id="g1-badge" class="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs font-bold rounded-full border border-purple-500/30 inline-block">
+                            Pertanyaan Kunci
+                        </span>
+                        <h4 id="g1-question-text" class="text-lg md:text-xl font-serif font-bold text-amber-200">
+                            Loading pertanyaan...
+                        </h4>
+                    </div>
+
+                    <!-- Options Grid -->
+                    <div id="g1-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Options injected by JS -->
+                    </div>
+
+                    <!-- Feedback Box -->
+                    <div id="g1-feedback" class="hidden p-4 rounded-xl text-xs space-y-2 border">
+                        <!-- Injected by JS -->
+                    </div>
+
+                    <button id="g1-next-btn" onclick="nextG1Question()" class="hidden w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs shadow-md transition">
+                        Lanjut ke Soal Berikutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: GAME 2 - RAKIT TANGGA NADA (SCALE BUILDER) -->
+        <section id="sec-game2" class="hidden space-y-6">
+            <div class="card-glass p-6 rounded-2xl">
+                <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6 border-b border-slate-800 pb-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-300 text-xs font-bold rounded-md">STUDIO RAKIT</span>
+                            <h3 class="text-xl font-serif font-bold text-amber-400">Game 2: Rakit Tangga Nada (Scale Builder)</h3>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-1">Pilih nada yang tepat secara berurutan sesuai rumus $1 - 1 - ½ - 1 - 1 - 1 - ½$!</p>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button onclick="resetG2Builder()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 transition">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset
+                        </button>
+                        <button onclick="playG2UserScale()" class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs shadow-md transition flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> Putar Hasil Rakitan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Target Scale Info -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <span class="text-[11px] text-slate-400 uppercase font-bold tracking-wider block">Tugas Rakit Tangga Nada:</span>
+                        <h4 id="g2-target-title" class="text-2xl font-serif font-bold text-amber-300">Buat Tangga Nada: E Mayor (4#)</h4>
+                        <p id="g2-target-hint" class="text-xs text-slate-400 mt-1">Gunakan interval 1 - 1 - ½ - 1 - 1 - 1 - ½. Ada 4 nada kres yang harus digunakan!</p>
+                    </div>
+
+                    <div class="bg-slate-900 px-4 py-2 rounded-xl border border-slate-800 text-center">
+                        <span class="text-[10px] text-slate-400 uppercase block">Progres Slot</span>
+                        <span id="g2-slot-counter" class="text-lg font-bold text-amber-400">1 / 8 Nada</span>
+                    </div>
+                </div>
+
+                <!-- Scale Slots (8 Slots) -->
+                <div class="mb-6">
+                    <span class="text-xs font-bold text-slate-300 block mb-2">Slot Nada Yang Dirakit:</span>
+                    <div id="g2-slots-grid" class="grid grid-cols-8 gap-2 text-center font-mono">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Note Selector Keyboard Buttons -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-amber-300">Pilih Nada Berikutnya:</span>
+                        <span class="text-[11px] text-slate-400">Klik tombol nada untuk memasukkannya ke slot</span>
+                    </div>
+
+                    <div id="g2-note-picker" class="flex flex-wrap gap-2 justify-center">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Assessment Box -->
+                <div id="g2-eval-box" class="mt-6 p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 space-y-2">
+                    <strong id="g2-eval-title" class="block font-bold text-amber-400 text-sm">Status Rakitan:</strong>
+                    <p id="g2-eval-desc">Lengkapi 8 nada di atas sesuai aturan interval tangga nada mayor.</p>
+                </div>
+
+                <div class="mt-4 flex justify-end">
+                    <button id="g2-next-btn" onclick="nextG2Target()" class="hidden px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs shadow-md transition">
+                        Tantangan Tangga Nada Berikutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-5 px-4 text-center text-slate-500 text-xs">
+        <p class="font-serif text-slate-400 font-semibold">Maestro Scale Master &copy; 2026</p>
+        <p class="text-[11px] text-slate-600 mt-0.5">Media Pembelajaran Teori Musik Interaktif: Rumus Tangga Nada Mayor Kres (1# - 7#)</p>
+    </footer>
+
+    <!-- Game Logic Script -->
+    <script>
+        // Web Audio API Synthesizer
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Frequencies for SPN
+        const FREQS = {
+            'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63, 'F4': 349.23, 'F#4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'A4': 440.00, 'A#4': 466.16, 'B4': 493.88,
+            'C5': 523.25, 'C#5': 554.37, 'D5': 587.33, 'D#5': 622.25, 'E5': 659.25, 'F5': 698.46, 'F#5': 739.99, 'G5': 783.99, 'G#5': 830.61, 'A5': 880.00, 'A#5': 932.33, 'B5': 987.77,
+            'B#4': 523.25, 'E#4': 349.23, 'B#5': 1046.50, 'E#5': 698.46, 'C6': 1046.50, 'C#6': 1108.73
+        };
+
+        function playSound(freq, startTime, duration = 0.5, type = 'triangle') {
+            initAudio();
+            if (!freq) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = type;
+            osc.frequency.value = freq;
+
+            gain.gain.setValueAtTime(0, startTime);
+            gain.gain.linearRampToValueAtTime(0.3, startTime + 0.04);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start(startTime);
+            osc.stop(startTime + duration);
+        }
+
+        function testAudio() {
+            initAudio();
+            const now = audioCtx.currentTime;
+            playSound(FREQS['G4'], now, 0.4);
+            playSound(FREQS['B4'], now + 0.15, 0.4);
+            playSound(FREQS['D5'], now + 0.3, 0.4);
+            playSound(FREQS['G5'], now + 0.45, 0.6);
+        }
+
+        // Data 1# to 7# Major Scales
+        const SCALE_DATA = [
+            {
+                sharps: 1,
+                name: "G Mayor",
+                root: "G",
+                notes: ['G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F#5', 'G5'],
+                notesFormatted: ['G', 'A', 'B', 'C', 'D', 'E', 'F#', 'G'],
+                sharpNotes: ['F#'],
+                desc: "1# menambah nada F#. Interval antar nada: G (1) A (1) B (½) C (1) D (1) E (1) F# (½) G."
+            },
+            {
+                sharps: 2,
+                name: "D Mayor",
+                root: "D",
+                notes: ['D4', 'E4', 'F#4', 'G4', 'A4', 'B4', 'C#5', 'D5'],
+                notesFormatted: ['D', 'E', 'F#', 'G', 'A', 'B', 'C#', 'D'],
+                sharpNotes: ['F#', 'C#'],
+                desc: "2# memiliki nada F# dan C#. C# adalah nada kres terakhir (nada ke-7 / leading tone)."
+            },
+            {
+                sharps: 3,
+                name: "A Mayor",
+                root: "A",
+                notes: ['A4', 'B4', 'C#5', 'D5', 'E5', 'F#5', 'G#5', 'A5'],
+                notesFormatted: ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#', 'A'],
+                sharpNotes: ['F#', 'C#', 'G#'],
+                desc: "3# memiliki nada F#, C#, dan G#. G# berada ½ nada di bawah tonika A."
+            },
+            {
+                sharps: 4,
+                name: "E Mayor",
+                root: "E",
+                notes: ['E4', 'F#4', 'G#4', 'A4', 'B4', 'C#5', 'D#5', 'E5'],
+                notesFormatted: ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#', 'E'],
+                sharpNotes: ['F#', 'C#', 'G#', 'D#'],
+                desc: "4# menambahkan D#. Urutan nada kres sejauh ini: F# - C# - G# - D#."
+            },
+            {
+                sharps: 5,
+                name: "B Mayor",
+                root: "B",
+                notes: ['B4', 'C#5', 'D#5', 'E5', 'F#5', 'G#5', 'A#5', 'B5'],
+                notesFormatted: ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#', 'B'],
+                sharpNotes: ['F#', 'C#', 'G#', 'D#', 'A#'],
+                desc: "5# memiliki 5 nada kres: F#, C#, G#, D#, A#. Hanya E dan B yang merupakan nada natural."
+            },
+            {
+                sharps: 6,
+                name: "F# Mayor",
+                root: "F#",
+                notes: ['F#4', 'G#4', 'A#4', 'B4', 'C#5', 'D#5', 'E#5', 'F#5'],
+                notesFormatted: ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'E#', 'F#'],
+                sharpNotes: ['F#', 'C#', 'G#', 'D#', 'A#', 'E#'],
+                desc: "6# memperkenalkan E# (secara enharmonis berbunyi seperti F natural, namun ditulis E# demi kepatuhan rumus abjad tangga nada)."
+            },
+            {
+                sharps: 7,
+                name: "C# Mayor",
+                root: "C#",
+                notes: ['C#4', 'D#4', 'E#4', 'F#4', 'G#4', 'A#4', 'B#4', 'C#5'],
+                notesFormatted: ['C#', 'D#', 'E#', 'F#', 'G#', 'A#', 'B#', 'C#'],
+                sharpNotes: ['F#', 'C#', 'G#', 'D#', 'A#', 'E#', 'B#'],
+                desc: "7# memiliki semua nada ber-kres! Termasuk E# dan B# (Enharmonis C)."
+            }
+        ];
+
+        let currentSandboxIdx = 0;
+
+        function renderSandboxButtons() {
+            const container = document.getElementById('sandbox-buttons');
+            container.innerHTML = '';
+
+            SCALE_DATA.forEach((s, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `px-3 py-1.5 rounded-lg text-xs font-bold transition ${idx === currentSandboxIdx ? 'bg-amber-500 text-slate-950 shadow-md' : 'bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800'}`;
+                btn.onclick = () => selectSandboxScale(idx);
+                btn.textContent = `${s.sharps}# (${s.root})`;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectSandboxScale(idx) {
+            currentSandboxIdx = idx;
+            renderSandboxButtons();
+
+            const data = SCALE_DATA[idx];
+            document.getElementById('sb-sharp-count').textContent = `${data.sharps}# Major Key Signature`;
+            document.getElementById('sb-scale-name').textContent = `${data.name} (${data.notesFormatted.join(' - ')})`;
+            document.getElementById('sb-desc').innerHTML = `<strong>Penjelasan Teori:</strong> ${data.desc}`;
+
+            const grid = document.getElementById('sb-notes-grid');
+            grid.innerHTML = '';
+
+            const intervals = ['Tonika', '1 Step', '1 Step', '½ Step', '1 Step', '1 Step', '1 Step', '½ Step'];
+
+            data.notesFormatted.forEach((note, i) => {
+                const isSharp = note.includes('#');
+                const box = document.createElement('div');
+                box.className = `p-3 rounded-xl border flex flex-col justify-between ${isSharp ? 'bg-purple-950/60 border-purple-600 text-purple-200' : 'bg-slate-900 border-slate-800 text-slate-200'}`;
+                box.innerHTML = `
+                    <span class="text-[9px] text-slate-400 block">${i + 1} (${intervals[i]})</span>
+                    <span class="text-base font-bold my-1">${note}</span>
+                    <span class="text-[9px] ${isSharp ? 'text-purple-300 font-bold' : 'text-slate-500'}">${isSharp ? '# Kres' : 'Natural'}</span>
+                `;
+                grid.appendChild(box);
+            });
+        }
+
+        function playCurrentSandboxScale() {
+            initAudio();
+            const data = SCALE_DATA[currentSandboxIdx];
+            const now = audioCtx.currentTime;
+
+            data.notes.forEach((n, i) => {
+                playSound(FREQS[n], now + (i * 0.45), 0.5);
+            });
+        }
+
+        function switchTab(tabId) {
+            document.getElementById('sec-teori').classList.add('hidden');
+            document.getElementById('sec-game1').classList.add('hidden');
+            document.getElementById('sec-game2').classList.add('hidden');
+
+            document.getElementById('tab-teori').className = 'nav-btn px-3.5 py-2 rounded-lg hover:bg-slate-800 text-slate-300 transition flex items-center gap-2';
+            document.getElementById('tab-game1').className = 'nav-btn px-3.5 py-2 rounded-lg hover:bg-slate-800 text-slate-300 transition flex items-center gap-2';
+            document.getElementById('tab-game2').className = 'nav-btn px-3.5 py-2 rounded-lg hover:bg-slate-800 text-slate-300 transition flex items-center gap-2';
+
+            document.getElementById(`sec-${tabId}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabId}`).className = 'nav-btn px-3.5 py-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 transition flex items-center gap-2';
+
+            const bannerTitle = document.getElementById('banner-title');
+            const bannerDesc = document.getElementById('banner-desc');
+
+            if (tabId === 'teori') {
+                bannerTitle.textContent = '"Selamat datang di Laboratorium Tangga Nada Mayor Kres (1# sampai 7#)!"';
+                bannerDesc.innerHTML = 'Kuasai rumus interval tangga nada mayor <strong>1 - 1 - ½ - 1 - 1 - 1 - ½</strong> dan urutan nada kres <strong>F - C - G - D - A - E - B</strong>.';
+            } else if (tabId === 'game1') {
+                bannerTitle.textContent = '"Modul Game 1: Detektif & Tebak Cepat Key Signature"';
+                bannerDesc.innerHTML = 'Jawab pertanyaan cepat mengenai tangga nada, jumlah kres, dan urutan nada kres yang muncul!';
+            } else if (tabId === 'game2') {
+                bannerTitle.textContent = '"Modul Game 2: Studio Rakit Tangga Nada"';
+                bannerDesc.innerHTML = 'Pilih nada demi nada secara presisi untuk merakit tangga nada mayor yang diminta!';
+            }
+        }
+
+        // --- GAME 1 LOGIC ---
+        const G1_QUESTIONS = [
+            {
+                q: "Berapa jumlah kres (#) pada tangga nada A Mayor?",
+                options: ["1#", "2#", "3#", "4#"],
+                correct: 2,
+                explain: "A Mayor memiliki 3# yaitu: F#, C#, dan G#."
+            },
+            {
+                q: "Manakah urutan penambahan nada kres (#) yang benar dari 1# sampai 7#?",
+                options: ["F - C - G - D - A - E - B", "C - G - D - A - E - B - F", "F - G - A - B - C - D - E", "B - E - A - D - G - C - F"],
+                correct: 0,
+                explain: "Ingat jembatan keledai: Father Charles Goes Down And Ends Battle (F - C - G - D - A - E - B)."
+            },
+            {
+                q: "Jika kres terakhir pada sebuah tangga nada adalah D#, tangga nada mayor apakah itu?",
+                options: ["D Mayor", "E Mayor", "A Mayor", "B Mayor"],
+                correct: 1,
+                explain: "Trik cepat: Nada kres terakhir (D#) adalah nada ke-7 (leading tone) yang berada ½ nada di bawah Tonika (E). Jadi tangga nadanya adalah E Mayor!"
+            },
+            {
+                q: "Tangga nada manakah yang memiliki tepat 5 nada kres (#)?",
+                options: ["E Mayor", "F# Mayor", "B Mayor", "C# Mayor"],
+                correct: 2,
+                explain: "B Mayor memiliki 5# (F#, C#, G#, D#, A#)."
+            },
+            {
+                q: "Pada tangga nada F# Mayor (6#), manakah nada ke-7 yang tepat sesuai rumus abjad?",
+                options: ["F natural", "E#", "G natural", "D#"],
+                correct: 1,
+                explain: "Sesuai aturan abjad tangga nada (F-G-A-B-C-D-E), nada ke-7 ditulis E# (bukan F natural), walaupun secara fisik di piano berbunyi sama (Enharmonis)."
+            },
+            {
+                q: "Berapakah jarak interval antara nada ke-3 dan ke-4 pada tangga nada Mayor?",
+                options: ["1 Step (Whole)", "½ Step (Half)", "1 ½ Step", "2 Steps"],
+                correct: 1,
+                explain: "Rumus interval Tangga Nada Mayor adalah: 1 - 1 - ½ - 1 - 1 - 1 - ½. Jarak nada ke-3 ke ke-4 adalah ½ step!"
+            },
+            {
+                q: "Tangga nada apakah yang memiliki seluruh nadanya (7 nada) ber-kres?",
+                options: ["F# Mayor", "G# Mayor", "C# Mayor", "B Mayor"],
+                correct: 2,
+                explain: "C# Mayor adalah 7# di mana seluruh nadanya (C#, D#, E#, F#, G#, A#, B#) memiliki kres!"
+            },
+            {
+                q: "Nada kres ke-4 yang muncul dalam urutan Key Signature adalah...",
+                options: ["G#", "D#", "A#", "C#"],
+                correct: 1,
+                explain: "Urutan kres: 1.F#, 2.C#, 3.G#, 4.D#. Jadi nada ke-4 adalah D#."
+            }
+        ];
+
+        let g1Idx = 0;
+        let g1Score = 0;
+
+        function loadG1Question() {
+            const current = G1_QUESTIONS[g1Idx];
+            document.getElementById('g1-progress').textContent = `${g1Idx + 1} / ${G1_QUESTIONS.length}`;
+            document.getElementById('g1-question-text').textContent = current.q;
+            document.getElementById('g1-feedback').classList.add('hidden');
+            document.getElementById('g1-next-btn').classList.add('hidden');
+
+            const container = document.getElementById('g1-options-container');
+            container.innerHTML = '';
+
+            current.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:bg-slate-800/80 text-xs md:text-sm text-left font-semibold text-slate-200 transition flex items-center gap-3';
+                btn.onclick = () => checkG1Answer(idx);
+                btn.innerHTML = `<span class="w-6 h-6 rounded-full bg-slate-800 text-amber-400 font-bold flex items-center justify-center text-xs shrink-0">${String.fromCharCode(65 + idx)}</span> <span>${opt}</span>`;
+                container.appendChild(btn);
+            });
+        }
+
+        function checkG1Answer(selectedIdx) {
+            const current = G1_QUESTIONS[g1Idx];
+            const feedbackEl = document.getElementById('g1-feedback');
+            feedbackEl.classList.remove('hidden', 'bg-emerald-950/40', 'border-emerald-800', 'bg-rose-950/40', 'border-rose-800');
+
+            if (selectedIdx === current.correct) {
+                g1Score += 100;
+                document.getElementById('g1-score').textContent = g1Score;
+                feedbackEl.classList.add('bg-emerald-950/40', 'border-emerald-800', 'text-emerald-200');
+                feedbackEl.innerHTML = `<strong class="block text-emerald-400 font-bold text-sm mb-1"><i class="fa-solid fa-circle-check"></i> Tepat Sekali!</strong> ${current.explain}`;
+                playSound(FREQS['C5'], audioCtx.currentTime, 0.2);
+                playSound(FREQS['G5'], audioCtx.currentTime + 0.15, 0.3);
+            } else {
+                feedbackEl.classList.add('bg-rose-950/40', 'border-rose-800', 'text-rose-200');
+                feedbackEl.innerHTML = `<strong class="block text-rose-400 font-bold text-sm mb-1"><i class="fa-solid fa-circle-xmark"></i> Kurang Tepat!</strong> ${current.explain}`;
+                playSound(FREQS['D4'], audioCtx.currentTime, 0.3);
+            }
+
+            document.getElementById('g1-next-btn').classList.remove('hidden');
+        }
+
+        function nextG1Question() {
+            if (g1Idx < G1_QUESTIONS.length - 1) {
+                g1Idx++;
+                loadG1Question();
+            } else {
+                const feedbackEl = document.getElementById('g1-feedback');
+                feedbackEl.classList.remove('hidden');
+                feedbackEl.className = 'p-5 rounded-xl bg-amber-950/50 border border-amber-500 text-amber-200 space-y-2';
+                feedbackEl.innerHTML = `
+                    <strong class="block text-amber-400 text-base font-serif font-bold"><i class="fa-solid fa-trophy"></i> Selamat! Modul Game 1 Selesai!</strong>
+                    <p>Skor Akhir Anda: <strong>${g1Score} Poin</strong>. Pemahaman Anda tentang Key Signature 1# - 7# sangat hebat!</p>
+                `;
+                document.getElementById('g1-next-btn').classList.add('hidden');
+            }
+        }
+
+        // --- GAME 2 LOGIC (SCALE BUILDER) ---
+        const G2_TARGETS = [
+            {
+                title: "G Mayor (1#)",
+                targetNotes: ['G', 'A', 'B', 'C', 'D', 'E', 'F#', 'G'],
+                spn: ['G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F#5', 'G5'],
+                hint: "1# memiliki nada F#. Rumus: G - A - B - C - D - E - F# - G"
+            },
+            {
+                title: "D Mayor (2#)",
+                targetNotes: ['D', 'E', 'F#', 'G', 'A', 'B', 'C#', 'D'],
+                spn: ['D4', 'E4', 'F#4', 'G4', 'A4', 'B4', 'C#5', 'D5'],
+                hint: "2# memiliki F# dan C#. Rumus: D - E - F# - G - A - B - C# - D"
+            },
+            {
+                title: "A Mayor (3#)",
+                targetNotes: ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#', 'A'],
+                spn: ['A4', 'B4', 'C#5', 'D5', 'E5', 'F#5', 'G#5', 'A5'],
+                hint: "3# memiliki F#, C#, dan G#. Mulailah dari nada A!"
+            },
+            {
+                title: "E Mayor (4#)",
+                targetNotes: ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#', 'E'],
+                spn: ['E4', 'F#4', 'G#4', 'A4', 'B4', 'C#5', 'D#5', 'E5'],
+                hint: "4# memiliki F#, C#, G#, dan D#. Mulailah dari nada E!"
+            },
+            {
+                title: "B Mayor (5#)",
+                targetNotes: ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#', 'B'],
+                spn: ['B4', 'C#5', 'D#5', 'E5', 'F#5', 'G#5', 'A#5', 'B5'],
+                hint: "5# memiliki F#, C#, G#, D#, dan A#. Hanya nada E dan B yang natural!"
+            }
+        ];
+
+        const ALL_AVAILABLE_NOTES = ['C', 'C#', 'D', 'D#', 'E', 'E#', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'B#'];
+
+        let g2TargetIdx = 0;
+        let g2UserNotes = [];
+
+        function loadG2Target() {
+            const target = G2_TARGETS[g2TargetIdx];
+            g2UserNotes = [];
+
+            document.getElementById('g2-target-title').textContent = `Tugas: Rakit Tangga Nada ${target.title}`;
+            document.getElementById('g2-target-hint').textContent = target.hint;
+            document.getElementById('g2-next-btn').classList.add('hidden');
+
+            renderG2Slots();
+            renderG2NotePicker();
+            updateG2Assessment();
+        }
+
+        function renderG2Slots() {
+            const target = G2_TARGETS[g2TargetIdx];
+            const grid = document.getElementById('g2-slots-grid');
+            grid.innerHTML = '';
+
+            document.getElementById('g2-slot-counter').textContent = `${g2UserNotes.length} / 8 Nada`;
+
+            for (let i = 0; i < 8; i++) {
+                const noteVal = g2UserNotes[i] || null;
+                const expected = target.targetNotes[i];
+                const isFilled = noteVal !== null;
+                const isCorrect = isFilled && noteVal === expected;
+
+                const box = document.createElement('div');
+                box.className = `p-3 rounded-xl border flex flex-col justify-between transition ${
+                    !isFilled ? 'bg-slate-900 border-slate-800 text-slate-500' :
+                    isCorrect ? 'bg-emerald-950/80 border-emerald-500 text-emerald-200' :
+                    'bg-rose-950/80 border-rose-500 text-rose-200'
+                }`;
+
+                box.innerHTML = `
+                    <span class="text-[9px] text-slate-400 block">Slot ${i + 1}</span>
+                    <span class="text-base font-bold my-1 font-mono">${noteVal || '--'}</span>
+                    <span class="text-[9px]">${!isFilled ? 'Kosong' : isCorrect ? '✓ Benar' : '✕ Salah'}</span>
+                `;
+                grid.appendChild(box);
+            }
+        }
+
+        function renderG2NotePicker() {
+            const container = document.getElementById('g2-note-picker');
+            container.innerHTML = '';
+
+            ALL_AVAILABLE_NOTES.forEach(note => {
+                const btn = document.createElement('button');
+                const isSharp = note.includes('#');
+                btn.className = `px-3.5 py-2 rounded-xl font-mono text-xs md:text-sm font-bold border transition ${
+                    isSharp ? 'bg-purple-950 hover:bg-purple-900 border-purple-700 text-purple-200' : 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-200'
+                }`;
+                btn.onclick = () => addNoteToG2(note);
+                btn.textContent = note;
+                container.appendChild(btn);
+            });
+        }
+
+        function addNoteToG2(note) {
+            if (g2UserNotes.length >= 8) return;
+
+            g2UserNotes.push(note);
+            initAudio();
+
+            // Find approximate SPN frequency for audio preview
+            const target = G2_TARGETS[g2TargetIdx];
+            const currentIdx = g2UserNotes.length - 1;
+            const approxFreq = FREQS[target.spn[currentIdx]] || FREQS[note + '4'] || 440;
+
+            playSound(approxFreq, audioCtx.currentTime, 0.4);
+
+            renderG2Slots();
+            updateG2Assessment();
+        }
+
+        function resetG2Builder() {
+            g2UserNotes = [];
+            renderG2Slots();
+            updateG2Assessment();
+        }
+
+        function updateG2Assessment() {
+            const target = G2_TARGETS[g2TargetIdx];
+            const titleEl = document.getElementById('g2-eval-title');
+            const descEl = document.getElementById('g2-eval-desc');
+            const box = document.getElementById('g2-eval-box');
+
+            if (g2UserNotes.length < 8) {
+                box.className = 'mt-6 p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 space-y-1';
+                titleEl.textContent = 'Status Rakitan: Dalam Proses...';
+                descEl.textContent = `Masukkan ${8 - g2UserNotes.length} nada lagi untuk melengkapi tangga nada ${target.title}.`;
+                return;
+            }
+
+            // Check correctness
+            let allMatch = true;
+            for (let i = 0; i < 8; i++) {
+                if (g2UserNotes[i] !== target.targetNotes[i]) {
+                    allMatch = false;
+                    break;
+                }
+            }
+
+            if (allMatch) {
+                box.className = 'mt-6 p-4 rounded-xl bg-emerald-950/60 border border-emerald-600 text-xs text-emerald-200 space-y-1';
+                titleEl.textContent = '🎉 Sempurna! Rakitan Tangga Nada Benar!';
+                descEl.textContent = `Luar biasa! Anda telah menyusun Tangga Nada ${target.title} dengan tepat sesuai rumus $1 - 1 - ½ - 1 - 1 - 1 - ½$.`;
+                document.getElementById('g2-next-btn').classList.remove('hidden');
+
+                playSound(FREQS['C5'], audioCtx.currentTime, 0.2);
+                playSound(FREQS['E5'], audioCtx.currentTime + 0.15, 0.2);
+                playSound(FREQS['G5'], audioCtx.currentTime + 0.3, 0.4);
+            } else {
+                box.className = 'mt-6 p-4 rounded-xl bg-rose-950/60 border border-rose-600 text-xs text-rose-200 space-y-1';
+                titleEl.textContent = '⚠️ Terdapat Kesalahan Nada / Kres!';
+                descEl.textContent = `Periksa slot bertanda merah! Pastikan urutan kres mengikuti rumus F#-C#-G#-D#-A# dan interval 1-1-½-1-1-1-½.`;
+            }
+        }
+
+        function playG2UserScale() {
+            if (g2UserNotes.length === 0) return;
+            initAudio();
+            const target = G2_TARGETS[g2TargetIdx];
+            const now = audioCtx.currentTime;
+
+            g2UserNotes.forEach((note, idx) => {
+                const freq = FREQS[target.spn[idx]] || FREQS[note + '4'] || 440;
+                playSound(freq, now + (idx * 0.45), 0.5);
+            });
+        }
+
+        function nextG2Target() {
+            if (g2TargetIdx < G2_TARGETS.length - 1) {
+                g2TargetIdx++;
+                loadG2Target();
+            } else {
+                alert("Selamat! Anda telah menyelesaikan seluruh tantangan rakit tangga nada 1# sampai 5#!");
+                g2TargetIdx = 0;
+                loadG2Target();
+            }
+        }
+
+        window.onload = function() {
+            renderSandboxButtons();
+            selectSandboxScale(0);
+            loadG1Question();
+            loadG2Target();
+        };
+    </script>
+</body>
+</html>
